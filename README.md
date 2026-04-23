@@ -1,69 +1,70 @@
-Your project's README should be professional, clearly explaining both the technical architecture and the scientific value of the explainability. 
-
-Here is a high-quality README.md file tailored for a GitHub repository.
+This updated `README.md` is structured for a professional research portfolio. It incorporates your specific figures and uses a clean, academic tone without emojis.
 
 ***
 
-# Deep GNN: Molecular Property Prediction & Explainability
+# Interpretable Graph Neural Networks for Molecular Dipole Prediction
 
-This repository implements a **Geometric Deep Learning** framework for predicting molecular dipole moments ($\mu$) using Graph Neural Networks (GNNs). A core focus of this project is **Model Interpretability**, utilizing GNNExplainer to map abstract message-passing logic back to chemical theory.
+This repository implements a Geometric Deep Learning framework for the prediction of molecular dipole moments ($\mu$) using the QM9 dataset. The core objective of this project is to bridge the gap between black-box Graph Neural Networks (GNNs) and chemical theory by utilizing post-hoc explainability techniques.
 
-## 🚀 Project Overview
-Predicting the physical properties of molecules (such as the dipole moment) is a fundamental task in computational chemistry. This project moves beyond "Black Box" predictions by visualizing exactly which atoms and bonds a GNN "focuses" on when making its decisions.
+## Project Overview
+Predicting molecular properties is a cornerstone of computational chemistry. This project utilizes a Message-Passing Graph Neural Network to regress dipole moments and employs GNNExplainer to visualize the model's decision-making process. By mapping attribution scores back to molecular geometry, we validate that the model learns physically meaningful descriptors rather than statistical noise.
 
-### Key Features:
-- **Architecture**: Graph Convolutional Network (GCN) with Global Additive Pooling.
+### Technical Specifications
+- **Architecture**: Deep Graph Convolutional Network (GCN) with Global Additive Pooling.
 - **Dataset**: QM9 (Quantum Chemistry Dataset).
-- **Interpretability**: Integration of `GNNExplainer` to generate saliency maps.
-- **Visualization**: Dual-mode visualization using `NetworkX` for geometric awareness and `RDKit` for high-fidelity chemical rendering.
+- **Explainability**: GNNExplainer for node and edge feature attribution.
+- **Visualization**: Dual-engine rendering using NetworkX for topological awareness and RDKit for high-fidelity chemical saliency maps.
 
-## 🧠 Explainability: Saliency & Chemical Intuition
-The project employs post-hoc attribution analysis to validate the model's structural inductive bias. By generating heatmaps of feature importance, we can see if the model's logic aligns with the **Inductive Effect** and **Bond Polarity**.
+## Explainability and Chemical Intuition
+The model's structural inductive bias is validated through attribution analysis. The generated heatmaps allow for a direct comparison between model focus and established chemical principles such as electronegativity and the inductive effect.
 
+### Atomic and Structural Representation
+The model treats atoms as nodes and covalent bonds as edges, utilizing Euclidean coordinates to maintain geometric awareness.
 
+![Molecular Graph Representation](figures/Screenshot%202026-04-24%20at%2000.00.04.png)
 
-[Image of bond dipole moment and electronegativity]
+### Global Feature Sensitivity
+Sensitivity analysis shows that the model prioritizes atomic numbers and specific heteroatom species (O, N) over structural descriptors like degree or valence. This aligns with the physical reality that dipole moments are primarily driven by charge distribution across electronegative centers.
 
+![Global Feature Attribution](figures/Screenshot%202026-04-24%20at%2000.01.17.png)
 
-### Global Feature Importance
-The analysis reveals a clear hierarchy in atomic contribution:
-1. **Heteroatoms (O, N)**: Receive the highest attribution due to their electronegativity and contribution to bond dipoles.
-2. **Backbone (C)**: Receives high importance as it forms the structural framework for charge distribution.
-3. **Hydrogens (H)**: Receive minimal importance, showing the model's ability to "denoise" the molecular graph and focus on the electronic core.
+### Saliency Mapping
+Using RDKit, we generate chemical-aware saliency maps. These visualizations confirm that the GNN focuses on polar bonds and heteroatom interfaces while correctly "denoising" terminal hydrogen atoms.
 
+![Chemical Saliency Map](figures/gnn_explanation.png)
 
-
-## 🛠 Installation & Usage
+## Installation and Usage
 
 ### Prerequisites
 - Python 3.10+
-- PyTorch & PyTorch Geometric
+- PyTorch and PyTorch Geometric
 - RDKit
 - NetworkX
-- Matplotlib & Seaborn
+- Matplotlib and Seaborn
 
 ### Setup
 ```bash
 pip install torch-geometric rdkit matplotlib networkx seaborn
 ```
 
-### Running the Explainer
-The notebook provides a unified cell to generate high-fidelity 2D chemical diagrams with overlaid importance scores:
+### Running the Analysis
+The provided notebooks include the full pipeline for training, explanation generation, and visualization. To generate a saliency map for a specific molecule:
+
 ```python
-# Select a molecule and generate the attribution map
-data = val_data[0]
-explanation = explainer(data.x, data.edge_index)
-# (See notebook for full rendering code)
+# Aggregate feature importance and render via RDKit
+atom_imp = explanation.node_mask.sum(dim=1)
+# (See notebooks/Graph-Neural-Networks-for-Molecular-Property-Prediction-and-Explainability AI.ipynb for full implementation)
 ```
 
-## 📊 Results
-The model demonstrates high-fidelity alignment with chemical reality. In molecules with polar functional groups, the GNN correctly identifies the C-O and C-N interfaces as the primary drivers of the dipole moment, while terminal hydrogen atoms are correctly identified as having negligible influence.
+## Results
+The implementation demonstrates that the GNN focuses on the molecular core and functional groups (C-O, C-N) when predicting dipole moments. The negligible attribution assigned to hydrogen atoms proves the model's robustness and its ability to distinguish between structural bulk and electronic "hotspots."
 
+![Geometric Attribution Map](figures/Screenshot%202026-04-24%20at%2000.02.19.png)
 
-
-## 📜 Conclusion
-This project demonstrates that GNNs can learn complex physical properties while maintaining transparency. By bridging the gap between graph tensors and chemical geometry, we provide a robust framework for developing **Interpretable AI** in the chemical sciences.
+## Conclusion
+This work illustrates that GNNs can achieve high predictive accuracy while remaining physically interpretable. By integrating explainability into the workflow, we transform the neural network into a transparent tool for molecular analysis, providing a framework for the discovery of property-specific chemical motifs.
 
 ---
-**Author:** [Your Name/GitHub Handle]  
-**Project:** Computational Chemistry & Geometric Deep Learning
+**Author**: Abrhaley Hailenchael  
+**GitHub**: [abrhaleyarefaine1997](https://github.com/abrhaleyarefaine1997)  
+**Project**: Computational Chemistry and Geometric Deep Learning
